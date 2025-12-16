@@ -19,7 +19,7 @@ export async function authenticate(
     await authenticateUseCase.execute({ email, password });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
-      return reply.status(409).send({ message: err.message });
+      return reply.status(401).send({ message: err.message });
     }
 
     throw err;
