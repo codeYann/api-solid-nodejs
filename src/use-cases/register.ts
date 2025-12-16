@@ -24,14 +24,14 @@ export class RegisterUseCase {
   }: RegisterUseCaseInput): Promise<RegisterUseCaseOutput> {
     logger.info({ email }, "Attempting to register new user");
 
-    const password_hash = await hash(password, 6);
-
     const userWithSameEmail = await this.usersRepository.findByEmail(email);
 
     if (userWithSameEmail) {
       logger.warn({ email }, "Registration failed: email already exists");
       throw new UserAlreadyExistsError();
     }
+
+    const password_hash = await hash(password, 12);
 
     const user = await this.usersRepository.create({
       name,
